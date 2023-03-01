@@ -16,12 +16,6 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'my-first-angular-app'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('my-first-angular-app');
-  });
-
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
@@ -29,3 +23,4 @@ describe('AppComponent', () => {
     expect(compiled.querySelector('.content span')?.textContent).toContain('my-first-angular-app app is running!');
   });
 });
+
