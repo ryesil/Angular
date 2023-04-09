@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http'
 import { ShoppingListService } from './shopping-list/shopping-list.service';
-import { Routes, RouterModule } from '@angular/router';
+
 
 
 import { AppComponent } from './app.component';
@@ -15,11 +15,9 @@ import { RecipeItemComponent } from './recipes/recipe-list/recipe-item/recipe-it
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-edit.component';
 import { DropdownDirective } from './shared/dropdown.directive';
+import { AppRoutingModule } from './app-routing/app-routing.module';
 
-const appRoutes=[
-    {path:"shoppingList", component:ShoppingListComponent},
-    {path:"recipes", component:RecipesComponent}
-]
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -38,7 +36,8 @@ const appRoutes=[
         BrowserModule,
         FormsModule,
         HttpClientModule,
-        RouterModule.forRoot(appRoutes)
+        AppRoutingModule,
+
     ]
 })
 export class AppModule { }
