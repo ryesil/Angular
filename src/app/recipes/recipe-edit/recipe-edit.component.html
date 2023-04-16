@@ -1,3 +1,3 @@
-<div *ngIf="editMode">Edit Mode</div>
+<div *ngIf="editMode else newMode">Edit Mode</div>
+<ng-template #newMode>New Mode</ng-template>
 
-<div *ngIf="!editMode">new Mode</div>
