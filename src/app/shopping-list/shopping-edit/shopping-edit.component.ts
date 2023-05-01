@@ -60,4 +60,12 @@ this.editMode=false;
 
 }
 
+onDelete(){
+  console.log(this.editedItemIndex)
+ console.log(  this.shoppingListService.getIngredients())
+this.shoppingListService.deleteIngredient(this.editedItemIndex);
+this.onClear();
+}
+
+
 }

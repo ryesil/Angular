@@ -39,6 +39,10 @@ this.ingredientsChanged.next(this.ingredients.slice());
 
 }
 
+getIngredients(){
+  return this.ingredients
+}
+
 getIngredient(index:number){
   return this.ingredients[index];
 }
@@ -47,6 +51,11 @@ updateIngredient(index:number, newIngredient:Ingredient){
 this.ingredients[index]=newIngredient;
 this.ingredientsChanged.next(this.ingredients.slice())
 
+}
+
+deleteIngredient(id){
+  this.ingredients=this.ingredients.filter((_,index)=>index!==id);
+  this.ingredientsChanged.next(this.ingredients.slice());
 }
 
 }
