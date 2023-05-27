@@ -23,13 +23,13 @@
                         <label for="imagePath">
                         ImageURL
                         </label>
-                        <input type="text" id="imagePath" name="imagePath" class="form-control" formControlName="imagePath">
+                        <input type="text" id="imagePath" #imagePath name="imagePath" class="form-control" formControlName="imagePath">
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <img src="" class="img-responsive">
+                    <img [src]="imagePath.value" class="img-responsive" style="max-width: 300px;">
                 </div>
             </div>
             <div class="row">

@@ -72,6 +72,7 @@ onSubmit(){
   } else {
     this.recipeService.addRecipe(this.recipeForm.value);
   }
+  this.onCancel();
 }
 
 onAddIngredient(){

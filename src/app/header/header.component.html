@@ -4,6 +4,7 @@
 
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto">
+            <li class="nav-item"><a class="nav-link"  routerLinkActive=" link-primary" aria-current="page" style="cursor:pointer" routerLink="/auth">Authenticate</a></li>
             <li class="nav-item" ><a class="nav-link" routerLinkActive=" link-primary" aria-current="page" style="cursor:pointer"  routerLink="/recipes">Recipes</a></li>
             <li class="nav-item"><a class="nav-link"  routerLinkActive=" link-primary" aria-current="page" style="cursor:pointer" routerLink="/shopping-list">Shopping List</a></li>
         </ul>
@@ -12,8 +13,8 @@
             <li class="nav-item dropdown">
                 <a style="cursor:pointer" class="nav-link dropdown-toggle" role="button" [appDropdown]="'d-block'">Manage</a>
                 <ul class="dropdown-menu X" >
-                    <li><a class="dropdown-item" style="cursor:pointer">Save Data</a></li>
-                    <li><a class="dropdown-item" style="cursor:pointer">Fetch Data</a></li>
+                    <li><a class="dropdown-item" style="cursor:pointer" (click)="onSaveDate()">Save Data</a></li>
+                    <li><a class="dropdown-item" style="cursor:pointer" (click)="onFetchData()">Fetch Data</a></li>
                 </ul>
             </li>
         </ul>
