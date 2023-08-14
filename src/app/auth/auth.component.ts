@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthResponseData, AuthService } from '../auth.service';
+import { AuthResponseData, AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -52,10 +52,8 @@ authObs.subscribe({
   },
   complete: ()=> {
     console.log(this.isLoading)
-    console.log(this.isLoading)
   }  
 });
-
     authForm.reset();
   }
 

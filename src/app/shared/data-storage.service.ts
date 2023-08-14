@@ -26,6 +26,7 @@ fetchRecipes(){
   return this.http.get<Recipe[]>('https://recipe-book-8a862-default-rtdb.firebaseio.com/recipes.json').pipe(
     map(
     recipes=>{
+      console.log('recipes', recipes);
       return recipes.map(recipe=>{
         //If ingredients don't exist, then we add an empty array.
         const ingredients:Ingredient[] = recipe.ingredients ? recipe.ingredients : [];

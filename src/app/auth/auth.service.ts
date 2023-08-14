@@ -1,6 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
+import { Subject, catchError, tap, throwError } from 'rxjs';
+import { User } from './user.model';
+import * as moment  from 'moment';
+
 export interface AuthResponseData{
 kind:string;
 idToken: string;
@@ -16,28 +19,58 @@ registered?: boolean;
   providedIn: 'root'
 })
 export class AuthService {
+//subject is generic
+  user = new Subject<User>();
 
   constructor(private http:HttpClient) { }
 
 
 signup(email:string, password:string){
-return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCUp65QqGUF3k2d-uzMWdf117qoSS2WEaw',{
-  email:email,
-  password:password,
-  returnSecureToken:true
-}).pipe(catchError(this.handleError));
+return this.http
+  .post<AuthResponseData>(
+    'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCUp65QqGUF3k2d-uzMWdf117qoSS2WEaw',
+    {
+      email: email,
+      password: password,
+      returnSecureToken: true,
+    }
+  )
+  .pipe(
+    catchError(this.handleError),
+    tap((resData) => {
+      this.handleAuthetication(resData.email,resData.localId,resData.idToken, +resData.expiresIn);
+    })
+  );
 }
 
 
 
 login(email:string, password:string){
-
 return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCUp65QqGUF3k2d-uzMWdf117qoSS2WEaw',{
   email:email,
   password:password,
   returnSecureToken:true
-}).pipe(catchError(this.handleError));
+}).pipe(catchError(this.handleError),
 
+tap((resData) => {
+  this.handleAuthetication(resData.email,resData.localId,resData.idToken, +resData.expiresIn);
+})
+);
+}
+
+private handleAuthetication(email:string, userID: string, token: string, expiresIn: number){
+  //TODO use moment.js later in this area.
+  const expirationDate = new Date(new Date().getTime() + +expiresIn * 1000);
+  const user = new User(
+    email,
+    userID,
+    token,
+    expirationDate
+  );
+  //Now, we can use the subject to next that user, so to set this or emit this
+  //Emit is like broadcasting user to its subscribers.
+  //b/c user is an observable, we need to emit the new user.
+  this.user.next(user);
 }
 
 private handleError(errorResponse: HttpErrorResponse){
