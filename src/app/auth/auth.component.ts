@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthResponseData, AuthService } from './auth.service';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -14,7 +15,7 @@ export class AuthComponent implements OnInit {
   error: string = null;
 
 
-  constructor(private authService:AuthService) { }
+  constructor(private authService:AuthService, private router: Router) { }
 
   ngOnInit(): void {
 
@@ -40,10 +41,15 @@ if(this.isLoginMode){
   //Signup
   authObs = this.authService.signup(email, password);
 }
+//authObs = this.isLoginMode ? this.authService.login(email,password) : this.authService.signup(email, password);
 authObs.subscribe({
   next: resData=>{
     console.log(resData);
     this.isLoading = false;
+    //when login is successful then we nevigate to recipes
+    //we want to navigate if user clicks the button and login is successful
+    //this route is comming from app-routing.module.ts
+    this.router.navigate(['/recipes'])
   },
   error: err=>{
    
