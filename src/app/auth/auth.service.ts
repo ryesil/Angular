@@ -26,7 +26,11 @@ export class AuthService {
 //This subject is old way. In order to implement token logic we used BehaviorSubject
   // user = new Subject<User>();
   //token = null;
+  //This user will be set to null after refreshing the page
+  //We need to save the token somewhere else
+  //we can store to cookies or localStorage
   user = new BehaviorSubject<User>(null);
+  private tokenExpirationTimer: any;
   constructor(private http:HttpClient, private router: Router) { }
 
 
@@ -68,8 +72,23 @@ tap((resData) => {
 logout(){
 this.user.next(null);
 this.router.navigate(['./auth'])
+localStorage.removeItem('userData');
+
+//if timer exists we clear it.
+if(this.tokenExpirationTimer){
+  clearTimeout(this.tokenExpirationTimer);
+}
 }
 
+//we need this to implement login out after 1 hr.
+//we need to call autoLogout whenever a new user emits ( handleAutentication and autoLogin)
+autoLogout(experiationDuration:number){
+  console.log(experiationDuration);
+  //If the user logs out before the timer. Then we need to clear the timer.
+this.tokenExpirationTimer = setTimeout(()=>{
+  this.logout();
+}, experiationDuration);
+}
 private handleAuthetication(email:string, userID: string, token: string, expiresIn: number){
   //TODO use moment.js later in this area.
   const expirationDate = new Date(new Date().getTime() + +expiresIn * 1000);
@@ -83,6 +102,11 @@ private handleAuthetication(email:string, userID: string, token: string, expires
   //Emit is like broadcasting user to its subscribers.
   //b/c user is an observable, we need to emit the new user.
   this.user.next(user);
+  //after user is emitted we start the autoLogout.
+  this.autoLogout(expiresIn * 1000);
+  //after we emit the user we save it to localStorage as a string using JSON.strigify(converts object to string)
+  //Then we hand it to autoLogin method
+  localStorage.setItem('userData',JSON.stringify(user))
 }
 
 private handleError(errorResponse: HttpErrorResponse){
@@ -103,5 +127,32 @@ private handleError(errorResponse: HttpErrorResponse){
   }
   return throwError(()=>new Error(errorMessage));
 }
+
+
+//This will be called when the app is loaded. So we need it in the app.component.ts. 
+//We simply call ngOninit in the app.component.ts
+autoLogin(){
+  const userData:{
+    email: string,
+    id: string,
+    _token: string,
+    _tokenExpirationDate: string
+  } = JSON.parse(localStorage.getItem('userData'));
+
+  if(!userData){
+    return;
+  } 
+
+const loadedUser = new User(userData.email, userData.id, userData._token, new Date(userData._tokenExpirationDate));
+//we check if the token is valid. If it is in the future.
+if(loadedUser.token){
+  this.user.next(loadedUser);
+  //Since the user is loaded we need to calculate how much time left.
+  const experiationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();// in milliseconds
+  this.autoLogout(experiationDuration);
+}
+
+}
+
 
 }
