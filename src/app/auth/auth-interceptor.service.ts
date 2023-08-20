@@ -16,10 +16,15 @@ export class AuthInterceptorService implements HttpInterceptor{
     //Here is also we are handling with two observables.
 
    return  this.authService.user.pipe(take(1),exhaustMap(user=>{
+    //So if the user doesn't exists( like login or registering phase) then next the original req without adding the token
+    if(!user){
+      return next.handle(req);
+    } else {
     //we cloned the req. And then added the auth param to it
       const modifiedReq = req.clone({params: new HttpParams().set('auth',user.token)})
       return next.handle(modifiedReq);
-    }))
+    
+  }}))
    
   }
 }

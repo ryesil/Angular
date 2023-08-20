@@ -39,7 +39,7 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
         AuthComponent,
         LoadingSpinnerComponent
     ],
-    providers:[ShoppingListService, RecipeService, {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService}],
+    providers:[ShoppingListService, RecipeService, {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi:true}],
     bootstrap: [AppComponent],
     imports: [
         BrowserModule,

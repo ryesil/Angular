@@ -27,21 +27,8 @@ storeRecipes(){
 //Then it will pass its value to the second subscription
 //This is important
 fetchRecipes(){
-  //So here we want to get the latest user and then unsubscribe.
-  //take(1)==> get the user once. Then be done with it.
- return this.authService.user.pipe(take(1), 
-  exhaustMap(user=>{
-    //here we get the token from the user.
-    //For FireBase we add the token as a query parameter, in other servers. We add the token in the header of the request.
-    //There are two ways to add token. We can add the token in the url as below or as a second argument (params) in the get method.
-    //return this.http.get<Recipe[]>('https://recipe-book-8a862-default-rtdb.firebaseio.com/recipes.json?auth=+user.token');
-    return this.http.get<Recipe[]>('https://recipe-book-8a862-default-rtdb.firebaseio.com/recipes.json',
-    {
-      params:new HttpParams().set('auth', user.token)
-    }
-    );
-    
-  }),
+
+    return this.http.get<Recipe[]>('https://recipe-book-8a862-default-rtdb.firebaseio.com/recipes.json').pipe(
   map(
     recipes=>{
       console.log('recipes', recipes);
