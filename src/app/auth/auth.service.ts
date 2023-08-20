@@ -1,9 +1,11 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject, catchError, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Subject, catchError, tap, throwError } from 'rxjs';
 import { User } from './user.model';
 import * as moment  from 'moment';
 
+//There are multiple ways to implement the token logic. We will use BehaviorSubject. That allows us to fetch data of the user
+// who is currently active 
 export interface AuthResponseData{
 kind:string;
 idToken: string;
@@ -20,8 +22,10 @@ registered?: boolean;
 })
 export class AuthService {
 //subject is generic
-  user = new Subject<User>();
-
+//This subject is old way. In order to implement token logic we used BehaviorSubject
+  // user = new Subject<User>();
+  //token = null;
+  user = new BehaviorSubject<User>(null);
   constructor(private http:HttpClient) { }
 
 

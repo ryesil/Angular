@@ -44,6 +44,7 @@ if(this.isLoginMode){
 //authObs = this.isLoginMode ? this.authService.login(email,password) : this.authService.signup(email, password);
 authObs.subscribe({
   next: resData=>{
+    //we know that we are authenticated but server doesn't know
     console.log(resData);
     this.isLoading = false;
     //when login is successful then we nevigate to recipes
