@@ -36,4 +36,8 @@ this.userSub.unsubscribe();
     this.datastorageService.fetchRecipes().subscribe();
   }
 
+  onLogout(){
+    this.authService.logout();
+  }
+
 }

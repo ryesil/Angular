@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject, catchError, tap, throwError } from 'rxjs';
 import { User } from './user.model';
 import * as moment  from 'moment';
+import { Router } from '@angular/router';
 
 //There are multiple ways to implement the token logic. We will use BehaviorSubject. That allows us to fetch data of the user
 // who is currently active 
@@ -26,7 +27,7 @@ export class AuthService {
   // user = new Subject<User>();
   //token = null;
   user = new BehaviorSubject<User>(null);
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private router: Router) { }
 
 
 signup(email:string, password:string){
@@ -60,6 +61,13 @@ tap((resData) => {
   this.handleAuthetication(resData.email,resData.localId,resData.idToken, +resData.expiresIn);
 })
 );
+}
+
+
+//this is the sate before we logged in. A null user.
+logout(){
+this.user.next(null);
+this.router.navigate(['./auth'])
 }
 
 private handleAuthetication(email:string, userID: string, token: string, expiresIn: number){
