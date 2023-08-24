@@ -14,7 +14,6 @@ export class AuthComponent implements OnInit {
   isLoading: boolean = false;
   error: string = null;
 
-
   constructor(private authService:AuthService, private router: Router) { }
 
   ngOnInit(): void {
@@ -64,6 +63,8 @@ authObs.subscribe({
     authForm.reset();
   }
 
+  onHandleError(){
+  this.error = null;
+}
 
-  
 }
