@@ -13,7 +13,7 @@
             <li class="nav-item"  *ngIf="isAuthenticated">
                 <a class="nav-link" style="cursor:pointer" (click)="onLogout()">Logout</a>
             </li>
-            <li class="nav-item dropdown" *ngIf="isAuthenticated">
+            <li class="nav-item dropdown">
                 <a style="cursor:pointer" class="nav-link dropdown-toggle" role="button" [appDropdown]="'d-block'">Manage</a>
                 <ul class="dropdown-menu X" >
                     <li><a class="dropdown-item" style="cursor:pointer" (click)="onSaveDate()">Save Data</a></li>

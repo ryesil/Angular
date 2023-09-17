@@ -4,16 +4,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { ShoppingListComponent } from '../shopping-list/shopping-list.component';
 import { AuthComponent } from '../auth/auth.component';
 
-
-const appRoutes: Routes = [
- {path:'', redirectTo:'/recipes', pathMatch:'full'},
-
-{path:'auth', component:AuthComponent}
-];
+const routes=[
+    {path:'shopping-list', component:ShoppingListComponent}
+]
 
 @NgModule({
-  declarations: [],
-  imports: [CommonModule, RouterModule.forRoot(appRoutes)],
-  exports: [RouterModule]
+    declarations:[],
+    imports:[CommonModule,
+        RouterModule.forChild(routes)],
+    exports:[RouterModule]
 })
-export class AppRoutingModule {}
+export class ShoppingListRoutingModule{}
