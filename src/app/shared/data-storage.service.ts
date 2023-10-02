@@ -1,16 +1,17 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipe.model';
-import { map, tap } from 'rxjs';
+import { exhaustMap, map, take, tap } from 'rxjs';
 import { Ingredient } from './ingredient.model';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataStorageService {
-
-  constructor(private http:HttpClient, private recipeService:RecipeService) { }
+//Token must be attached. So that server knows about it
+  constructor(private http:HttpClient, private recipeService:RecipeService, private authService: AuthService) { }
 
 
 storeRecipes(){
@@ -21,11 +22,16 @@ storeRecipes(){
   })
 }
 
-
+//Here we subscribed to user first and then we subscribed again gor recipes.
+//To handle two subscriptions we userd exaustMap==> it will be done with the first subscription
+//Then it will pass its value to the second subscription
+//This is important
 fetchRecipes(){
-  return this.http.get<Recipe[]>('https://recipe-book-8a862-default-rtdb.firebaseio.com/recipes.json').pipe(
-    map(
+
+    return this.http.get<Recipe[]>('https://recipe-book-8a862-default-rtdb.firebaseio.com/recipes.json').pipe(
+  map(
     recipes=>{
+      console.log('recipes', recipes);
       return recipes.map(recipe=>{
         //If ingredients don't exist, then we add an empty array.
         const ingredients:Ingredient[] = recipe.ingredients ? recipe.ingredients : [];
@@ -36,7 +42,8 @@ fetchRecipes(){
   tap(recipes=>{
     this.recipeService.setRecipes(recipes);
   })
-  )
+  );
+   
 }
 
 }

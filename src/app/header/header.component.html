@@ -4,12 +4,15 @@
 
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto">
-            <li class="nav-item"><a class="nav-link"  routerLinkActive=" link-primary" aria-current="page" style="cursor:pointer" routerLink="/auth">Authenticate</a></li>
-            <li class="nav-item" ><a class="nav-link" routerLinkActive=" link-primary" aria-current="page" style="cursor:pointer"  routerLink="/recipes">Recipes</a></li>
+            <li class="nav-item" *ngIf="!isAuthenticated"><a class="nav-link"  routerLinkActive=" link-primary" aria-current="page" style="cursor:pointer" routerLink="/auth">Authenticate</a></li>
+            <li class="nav-item" *ngIf="isAuthenticated"><a class="nav-link" routerLinkActive=" link-primary" aria-current="page" style="cursor:pointer"  routerLink="/recipes">Recipes</a></li>
             <li class="nav-item"><a class="nav-link"  routerLinkActive=" link-primary" aria-current="page" style="cursor:pointer" routerLink="/shopping-list">Shopping List</a></li>
         </ul>
         
         <ul class="nav navbar-nav">
+            <li class="nav-item"  *ngIf="isAuthenticated">
+                <a class="nav-link" style="cursor:pointer" (click)="onLogout()">Logout</a>
+            </li>
             <li class="nav-item dropdown">
                 <a style="cursor:pointer" class="nav-link dropdown-toggle" role="button" [appDropdown]="'d-block'">Manage</a>
                 <ul class="dropdown-menu X" >

@@ -4,14 +4,15 @@ import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/
   selector: '[appDropdown]'
 })
 export class DropdownDirective {
-  color:boolean=false;
+  color:boolean = false;
 @Input('appDropdown') cssClass:string;
 
 
   constructor(private elementRef:ElementRef, private renderer:Renderer2) { }
 
 @HostListener('click') onClick(eventData:Event){
-this.color=!this.color;
+  console.log(this.cssClass);
+this.color = !this.color;
 if(this.color){
 
 this.renderer.addClass(this.renderer.nextSibling(this.elementRef.nativeElement),this.cssClass);
