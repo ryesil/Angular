@@ -27,8 +27,5 @@ children:[
     CommonModule,
     RouterModule.forChild(routes)
   ],
-  exports:[
-    RouterModule
-  ]
 })
 export class RecipesRoutingModule { }

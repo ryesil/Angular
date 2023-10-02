@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http'
 import { ShoppingListService } from './shopping-list/shopping-list.service';
 
@@ -8,8 +8,6 @@ import { ShoppingListService } from './shopping-list/shopping-list.service';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from "./header/header.component";
-import { ShoppingListComponent } from './shopping-list/shopping-list.component';
-import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-edit.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { RecipeService } from './recipes/recipe.service';
 import { AuthComponent } from './auth/auth.component';
@@ -19,15 +17,13 @@ import { AlertComponent } from './shared/alert/alert/alert.component';
 import { PlaceholderDirective } from './shared/placeholder/placeholder.directive';
 import { RecipesModule } from './recipes/recipes.module';
 import { RecipesRoutingModule } from './app-routing/recipes-routing.module';
+import { ShoppingListRoutingModule } from './app-routing/shopping-list.module';
 import { DirectiveModule } from './modules/directive.module';
 
 @NgModule({
     declarations: [// like components, custom directives, custom pipes 
         AppComponent,
         HeaderComponent,
-        ShoppingListComponent,
-        ShoppingEditComponent,
-       
         AuthComponent,
         LoadingSpinnerComponent,
         AlertComponent,
@@ -42,7 +38,8 @@ import { DirectiveModule } from './modules/directive.module';
         AppRoutingModule,
         RecipesModule,
         RecipesRoutingModule,
-        DirectiveModule
+        DirectiveModule,
+        ShoppingListRoutingModule
     ],
 })
 export class AppModule { }
